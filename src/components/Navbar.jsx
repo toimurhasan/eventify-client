@@ -1,4 +1,5 @@
 import React from "react";
+import ThemeToggle from "./ThemeToggle";
 
 export const Navbar = () => {
   const links = (
@@ -53,8 +54,14 @@ export const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
+      <div className="navbar-end gap-2">
+        <ThemeToggle />
+        <button className="btn">Logout</button>
+        <div data-tooltip-id="my-tooltip" className="avatar">
+          <div className="w-11 rounded-full border-2 border-gray-300 shadow cursor-pointer">
+            <img />
+          </div>
+        </div>
       </div>
     </div>
   );
