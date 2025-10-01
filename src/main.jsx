@@ -9,6 +9,7 @@ import { EventDetails } from "./pages/EventDetails";
 import { MyBookings } from "./pages/MyBookings";
 import { AddEvent } from "./pages/AddEvent";
 import { Profile } from "./pages/Profile";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "my-bookings", element: <MyBookings /> },
       { path: "add-event", element: <AddEvent /> },
       { path: "profile", element: <Profile /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
