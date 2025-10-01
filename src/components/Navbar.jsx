@@ -1,23 +1,26 @@
 import React from "react";
 import ThemeToggle from "./ThemeToggle";
+import { NavLink } from "react-router";
 
 export const Navbar = () => {
   const links = (
     <>
       <li>
-        <a>Home</a>
+        <NavLink to="/" end>
+          Home
+        </NavLink>
       </li>
       <li>
-        <a>Events</a>
+        <NavLink to="/events">Events</NavLink>
       </li>
       <li>
-        <a>My Bookings</a>
+        <NavLink to="/my-bookings">My Bookings</NavLink>
       </li>
       <li>
-        <a>Add Event</a>
+        <NavLink to="/add-event">Add Event</NavLink>
       </li>
       <li>
-        <a>Profile</a>
+        <NavLink to="/profile">Profile</NavLink>
       </li>
     </>
   );
