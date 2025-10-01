@@ -10,6 +10,7 @@ import { MyBookings } from "./pages/MyBookings";
 import { AddEvent } from "./pages/AddEvent";
 import { Profile } from "./pages/Profile";
 import Login from "./pages/Login";
+import AuthProvider from "./contexts/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );
