@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc"; // For Google icon (optional)
 import { AuthContext } from "../contexts/AuthContext";
 
 const Login = () => {
-  const { signInUser } = use(AuthContext);
+  const { signInUser, continueWithGoogle } = use(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,6 +28,19 @@ const Login = () => {
   const handleGoogleLogin = () => {
     // Handle Google login logic here (Firebase / OAuth)
     console.log("Google login clicked");
+    continueWithGoogle()
+      .then(() => {
+        // toast.success("Continue with github successful");
+        // // console.log(currentUser);
+        // navigate("/");
+        console.log("g success");
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        // const errorCode = error.code;
+        // toast.error(errorCode);
+        console.log("g fail");
+      });
   };
 
   return (
