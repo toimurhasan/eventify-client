@@ -1,6 +1,7 @@
 import React, { use, useState } from "react";
 import { FcGoogle } from "react-icons/fc"; // For Google icon (optional)
 import { AuthContext } from "../contexts/AuthContext";
+import { Link } from "react-router";
 
 const Login = () => {
   const { signInUser, continueWithGoogle } = use(AuthContext);
@@ -96,9 +97,9 @@ const Login = () => {
 
           <p className="text-center text-gray-500">
             Don’t have an account?{" "}
-            <a href="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="text-blue-600 hover:underline">
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

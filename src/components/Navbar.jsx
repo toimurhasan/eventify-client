@@ -1,8 +1,10 @@
-import React from "react";
+import React, { use } from "react";
 import ThemeToggle from "./ThemeToggle";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const Navbar = () => {
+  const { currentUser, signOutUser } = use(AuthContext);
   const links = (
     <>
       <li>
@@ -36,7 +38,6 @@ export const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -59,12 +60,28 @@ export const Navbar = () => {
       </div>
       <div className="navbar-end gap-2">
         <ThemeToggle />
-        <button className="btn">Logout</button>
-        <div data-tooltip-id="my-tooltip" className="avatar">
-          <div className="w-11 rounded-full border-2 border-gray-300 shadow cursor-pointer">
-            <img />
-          </div>
-        </div>
+
+        {currentUser ? (
+          <>
+            <button className="btn" onClick={() => signOutUser()}>
+              Logout
+            </button>
+            <div className="tooltip tooltip-bottom avatar" data-tip={currentUser.displayName}>
+              <div className="w-11 rounded-full border-2 border-gray-300 shadow cursor-pointer">
+                <img src={currentUser.photoURL} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to={"/register"} className="btn">
+              Register
+            </Link>
+            <Link to={"/login"} className="btn">
+              Login
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

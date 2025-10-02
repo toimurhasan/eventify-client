@@ -11,6 +11,7 @@ import { AddEvent } from "./pages/AddEvent";
 import { Profile } from "./pages/Profile";
 import Login from "./pages/Login";
 import AuthProvider from "./contexts/AuthProvider";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "add-event", element: <AddEvent /> },
       { path: "profile", element: <Profile /> },
       { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
     ],
   },
 ]);
