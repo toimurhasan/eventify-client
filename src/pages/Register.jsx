@@ -18,7 +18,7 @@ const Register = () => {
     const confirmPassword = form.confirmPassword.value;
 
     if (password !== confirmPassword) {
-      console.log("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -33,7 +33,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center justify-center min-h-[calc(100vh-65px)]">
       <div className="w-full max-w-md p-8 space-y-2 rounded-2xl border border-gray-500 shadow-2xl">
         <h2 className="text-2xl font-bold text-center">Register</h2>
 

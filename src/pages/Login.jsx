@@ -1,12 +1,14 @@
 import React, { use, useState } from "react";
 import { FcGoogle } from "react-icons/fc"; // For Google icon (optional)
 import { AuthContext } from "../contexts/AuthContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { signInUser, continueWithGoogle } = use(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,14 +17,12 @@ const Login = () => {
     const password = form.password.value;
     signInUser(email, password)
       .then(() => {
-        // toast.success("Login Successful.");
-        // navigate(location?.state || "/");
-        console.log("success");
+        toast.success("Login Successful.");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
-        // const errorCode = error.code;
-        // toast.error(errorCode);
-        console.log(error.code);
+        const errorCode = error.code;
+        toast.error(errorCode);
       });
   };
 
@@ -31,21 +31,18 @@ const Login = () => {
     console.log("Google login clicked");
     continueWithGoogle()
       .then(() => {
-        // toast.success("Continue with github successful");
-        // // console.log(currentUser);
-        // navigate("/");
-        console.log("g success");
+        toast.success("Continue with github successful");
+        navigate("/");
       })
       .catch((error) => {
         // Handle Errors here.
-        // const errorCode = error.code;
-        // toast.error(errorCode);
-        console.log("g fail");
+        const errorCode = error.code;
+        toast.error(errorCode);
       });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center justify-center min-h-[calc(100vh-65px)] ">
       <div className="w-full max-w-md p-8 space-y-2 rounded-2xl border border-gray-500 shadow-2xl">
         <h2 className="text-2xl font-bold text-center">Login</h2>
 
