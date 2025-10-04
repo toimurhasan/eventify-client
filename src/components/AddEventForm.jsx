@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function AddEventForm({ onSubmit }) {
+  const { currentUser } = use(AuthContext);
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [imageURL, setImageURL] = useState(""); // ✅ new state
+  const [imageURL, setImageURL] = useState("");
+  const [organizerName, setOrganizerName] = useState(""); // ✅ new state
   const [seats, setSeats] = useState(0);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -18,7 +21,8 @@ export default function AddEventForm({ onSubmit }) {
     if (!location.trim()) e.location = "Location is required.";
     if (!category.trim()) e.category = "Category is required.";
     if (!description.trim()) e.description = "Description is required.";
-    if (!imageURL.trim()) e.imageURL = "Image URL is required."; // ✅ validation
+    if (!imageURL.trim()) e.imageURL = "Image URL is required.";
+    if (!organizerName.trim()) e.organizerName = "Organizer name is required."; // ✅ validation
     if (!seats || Number(seats) <= 0) e.seats = "Number of seats must be greater than 0.";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -30,7 +34,8 @@ export default function AddEventForm({ onSubmit }) {
     setLocation("");
     setCategory("");
     setDescription("");
-    setImageURL(""); // ✅ reset too
+    setImageURL("");
+    setOrganizerName(""); // ✅ reset
     setSeats(0);
     setErrors({});
   };
@@ -46,8 +51,10 @@ export default function AddEventForm({ onSubmit }) {
       location,
       category,
       description,
-      imageURL, // ✅ included in payload
+      imageURL,
+      organizerName, // ✅ include
       seats,
+      email: currentUser.email,
     };
 
     try {
@@ -80,6 +87,7 @@ export default function AddEventForm({ onSubmit }) {
     <div className="max-w-3xl mx-auto p-6 rounded-2xl shadow-md border border-gray-300">
       <h2 className="text-2xl font-semibold mb-4 text-center">Add New Event</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Event Name */}
         <div>
           <label className="block text-sm font-medium mb-1">Event Name</label>
           <input
@@ -93,6 +101,7 @@ export default function AddEventForm({ onSubmit }) {
           {errors.eventName && <p className="text-red-500 text-sm mt-1">{errors.eventName}</p>}
         </div>
 
+        {/* Date + Location */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">Date</label>
@@ -121,6 +130,7 @@ export default function AddEventForm({ onSubmit }) {
           </div>
         </div>
 
+        {/* Category */}
         <div>
           <label className="block text-sm font-medium mb-1">Category</label>
           <select
@@ -140,6 +150,7 @@ export default function AddEventForm({ onSubmit }) {
           {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
         </div>
 
+        {/* Description */}
         <div>
           <label className="block text-sm font-medium mb-1">Description</label>
           <textarea
@@ -154,7 +165,7 @@ export default function AddEventForm({ onSubmit }) {
           {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
         </div>
 
-        {/* ✅ Added controlled Image URL field */}
+        {/* Image URL */}
         <div>
           <label className="block text-sm font-medium mb-1">Image URL</label>
           <input
@@ -168,6 +179,23 @@ export default function AddEventForm({ onSubmit }) {
           {errors.imageURL && <p className="text-red-500 text-sm mt-1">{errors.imageURL}</p>}
         </div>
 
+        {/* Organizer Name */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Organizer Name</label>
+          <input
+            value={organizerName}
+            onChange={(e) => setOrganizerName(e.target.value)}
+            className={`w-full rounded-lg border p-2 focus:outline-none ${
+              errors.organizerName ? "border-red-500" : "border-gray-200"
+            }`}
+            placeholder="Enter Organizer's Name"
+          />
+          {errors.organizerName && (
+            <p className="text-red-500 text-sm mt-1">{errors.organizerName}</p>
+          )}
+        </div>
+
+        {/* Seats */}
         <div>
           <label className="block text-sm font-medium mb-1">Number of seats</label>
           <input
@@ -182,6 +210,7 @@ export default function AddEventForm({ onSubmit }) {
           {errors.seats && <p className="text-red-500 text-sm mt-1">{errors.seats}</p>}
         </div>
 
+        {/* Buttons */}
         <div className="flex items-center gap-3">
           <button
             type="submit"

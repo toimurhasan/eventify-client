@@ -1,45 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-
-// mock data (in real app, fetch by id)
-const eventsData = [
-  {
-    id: 1,
-    title: "Tech Conference 2025",
-    date: "2025-10-20",
-    location: "Dhaka, Bangladesh",
-    seats: 100,
-    description: "A big conference about technology trends in 2025.",
-    organizer: "Tech Community Bangladesh",
-    deadline: "2025-10-15",
-    fee: "$50",
-    image: "https://via.placeholder.com/600x300",
-  },
-  {
-    id: 2,
-    title: "Startup Meetup",
-    date: "2025-11-02",
-    location: "Chittagong, Bangladesh",
-    seats: 50,
-    description: "Networking and pitching for startups.",
-    organizer: "Startup Hub BD",
-    deadline: "2025-10-28",
-    fee: "Free",
-    image: "https://via.placeholder.com/600x300",
-  },
-];
 
 export function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const event = eventsData.find((e) => e.id === parseInt(id));
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    async function fetchEvent() {
+      try {
+        const res = await fetch("http://localhost:3000/all-events");
+        if (!res.ok) throw new Error("Failed to fetch event");
+        const data = await res.json();
+        const found = data.find((e) => e._id === id);
+        setEvent(found || null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchEvent();
+  }, [id]);
+
+  if (loading) return <p className="p-6 text-center">Loading event...</p>;
+  if (error) return <p className="p-6 text-center text-red-500">{error}</p>;
   if (!event) return <h2 className="p-6">Event not found.</h2>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
-      <img src={event.image} alt={event.title} className="w-full rounded mb-4" />
-      <h1 className="text-3xl font-bold">{event.title}</h1>
+      <img src={event.imageURL} alt={event.name} className="w-full rounded mb-4" />
+      <h1 className="text-3xl font-bold">{event.name}</h1>
       <p className="text-gray-600">
         {event.date} | {event.location}
       </p>
@@ -47,16 +41,13 @@ export function EventDetails() {
 
       <div className="mt-4 bg-gray-100 p-4 rounded">
         <p>
-          <strong>Organizer:</strong> {event.organizer}
-        </p>
-        <p>
-          <strong>Registration Deadline:</strong> {event.deadline}
+          <strong>Organizer:</strong> {event.organizerName}
         </p>
         <p>
           <strong>Available Seats:</strong> {event.seats}
         </p>
         <p>
-          <strong>Fee:</strong> {event.fee}
+          <strong>Category:</strong> {event.category}
         </p>
       </div>
 
