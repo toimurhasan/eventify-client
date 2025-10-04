@@ -6,6 +6,7 @@ export default function AddEventForm({ onSubmit }) {
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [imageURL, setImageURL] = useState(""); // ✅ new state
   const [seats, setSeats] = useState(0);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -17,6 +18,7 @@ export default function AddEventForm({ onSubmit }) {
     if (!location.trim()) e.location = "Location is required.";
     if (!category.trim()) e.category = "Category is required.";
     if (!description.trim()) e.description = "Description is required.";
+    if (!imageURL.trim()) e.imageURL = "Image URL is required."; // ✅ validation
     if (!seats || Number(seats) <= 0) e.seats = "Number of seats must be greater than 0.";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -28,6 +30,7 @@ export default function AddEventForm({ onSubmit }) {
     setLocation("");
     setCategory("");
     setDescription("");
+    setImageURL(""); // ✅ reset too
     setSeats(0);
     setErrors({});
   };
@@ -43,6 +46,7 @@ export default function AddEventForm({ onSubmit }) {
       location,
       category,
       description,
+      imageURL, // ✅ included in payload
       seats,
     };
 
@@ -148,6 +152,20 @@ export default function AddEventForm({ onSubmit }) {
             placeholder="Write a short description of the event..."
           />
           {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+        </div>
+
+        {/* ✅ Added controlled Image URL field */}
+        <div>
+          <label className="block text-sm font-medium mb-1">Image URL</label>
+          <input
+            value={imageURL}
+            onChange={(e) => setImageURL(e.target.value)}
+            className={`w-full rounded-lg border p-2 focus:outline-none ${
+              errors.imageURL ? "border-red-500" : "border-gray-200"
+            }`}
+            placeholder="Enter Image URL"
+          />
+          {errors.imageURL && <p className="text-red-500 text-sm mt-1">{errors.imageURL}</p>}
         </div>
 
         <div>
